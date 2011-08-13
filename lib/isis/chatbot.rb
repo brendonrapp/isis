@@ -1,48 +1,64 @@
-# chatbot.rb
+#!/usr/bin/env ruby
 
+require 'yaml'
 require 'singleton'
+require 'isis/plugins'
+require 'isis/connections'
 
 module Isis
   class Chatbot
-    include Singleton
 
-    @@enabled_plugins = {}
-    @@command_listeners = {}
-    @@message_listeners = {}
-    @@enter_listeners = {}
-    @@join_listeners = {}
+    attr_accessor :config, :connection, :plugins
 
     def initialize
-      @config = YAML::Load(File.read(File.join(ROOT_FOLDER, 'config.yml')))
-      @chat = Tinder::Campfire.new @config[:subdomain], :token => @config[:api_key]
-    end
-
-    def run
-      join_room
-      @room.listen do |m|
-        # Listen and process crap
-      end
-    end
-
-    def join_room
-      @room = @chat.find_room_by_name(@config[:room])
-      raise Exception.new("Could not find room named: ${@config[:room]}") if @room.nil?
-      @room.join
+      @config = YAML::load(File.read(File.join(ROOT_FOLDER, 'config.yml')))
+      load_plugins
+      @connection = Isis::Connections::HipChat.new(config)
     end
 
     def load_plugins
-      @config[:enabled_plugins].each do |p|
-        @@enabled_plugins.push p
-        p.register_plugin
+      self.plugins = []
+      class_prefix = "Isis::Plugin::"
+
+      @config['enabled_plugins'].each do |plugin|
+        self.plugins << eval(class_prefix + plugin).new
       end
+
+      puts self.plugins.to_s
+    end
+
+    def connect
+      @connection.connect
+    end
+
+    def join
+      @connection.join
     end
 
     def speak(message)
-      @room.speak message
+      @connection.speak message
     end
 
-    def paste(message)
-      @room.paste message
+    def register_plugins
+      @connection.register_plugins(self)
+    end
+
+    def trap_signals
+      [:INT, :TERM].each do |sig|
+        trap(sig) do
+          puts "Trapped signal #{sig.to_s}"
+          puts "Shutting down gracefully"
+          self.speak "Home sweet hooome!"
+          exit
+        end
+      end
+    end
+
+    def run
+      connect
+      trap_signals
+      register_plugins
+      join
     end
   end
 end

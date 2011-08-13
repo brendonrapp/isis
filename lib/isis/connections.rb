@@ -1,0 +1,1 @@
+require 'isis/connections/hipchat'
