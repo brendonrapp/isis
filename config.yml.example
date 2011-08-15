@@ -1,0 +1,28 @@
+# config.yml
+
+## SERVICES ##
+# Supported values: hipchat, campfire
+service: hipchat
+
+## HIPCHAT SETTINGS ##
+hipchat:
+  jid: <jid>
+  name: <name>
+  password: <password>
+  room: <room>
+
+
+## CAMPFIRE SETTINGS ##
+campfire:
+  subdomain: subdomain  # from subdomain.campfirenow.com
+  api_key: api_key_goes_here
+  room: room_name
+  ssl: true
+
+## PLUGIN SETTINGS ##
+enabled_plugins:
+  - Archer
+  - XKCD
+  - TWSS
+  - PennyArcade
+  - FindMyIphone

@@ -1,2 +1,5 @@
-source :gemcutter
+source 'http://www.rubygems.org'
+gem 'xmpp4r'
 gem 'tinder'
+gem 'twss'
+gem 'daemons'
