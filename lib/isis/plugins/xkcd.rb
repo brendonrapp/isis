@@ -4,15 +4,14 @@ require 'open-uri'
 
 class Isis::Plugin::XKCD < Isis::Plugin::Base
 
-  def respond_to_msg?(msg)
+  def respond_to_msg?(msg, speaker)
     @commands = msg.split
     @commands[0] == "!xkcd" ? true : false
   end
 
   def response
-
     if @commands[1].nil?
-      new_comic and return
+      return new_comic
     end
 
     case @commands[1].downcase

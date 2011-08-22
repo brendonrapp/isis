@@ -28,6 +28,13 @@ class Isis::Connections::HipChat < Isis::Connections::Base
     @join_time = Time.now
   end
 
+  def register_disconnect_callback
+    @client.on_exception do |e, stream, where|
+      puts "Exception! #{e.to_s}"
+      self.connect  # Reconnect!
+    end
+  end
+
   def register_plugins(bot)
     @muc.on_message do |time, speaker, message|
       
@@ -47,15 +54,20 @@ class Isis::Connections::HipChat < Isis::Connections::Base
 
       else
         bot.plugins.each do |plugin|
-          response = plugin.receive_message(message)
-          unless response.nil?
-            if response.respond_to?('each')
-              response.each do |line|
-                self.speak line
+          begin
+            response = plugin.receive_message(message, speaker)
+            unless response.nil?
+              if response.respond_to?('each')
+                response.each do |line|
+                  self.speak line
+                end
+              else
+                self.speak response
               end
-            else
-              self.speak response
             end
+          rescue => e
+            self.speak "ERROR: Plugin #{plugin.class.name} just crashed"
+            self.speak "Message: #{e.message}"
           end
         end
       end
@@ -72,12 +84,14 @@ class Isis::Connections::HipChat < Isis::Connections::Base
 
   def join
     @muc.join(@config['hipchat']['room'] + '/' + @config['hipchat']['name'])
-    self.speak "i'm on my way..."
-    loop { sleep 1 }
+    self.speak "Mainframe: ONLINE"
   end
 
   def speak(message)
     @muc.send Jabber::Message.new(@muc.room, message)
-    puts "I said: \"#{message}\""
+  end
+
+  def still_connected?
+    @client.is_connected?
   end
 end

@@ -9,7 +9,7 @@ hipchat:
   jid: <jid>
   name: <name>
   password: <password>
-  room: <room>
+  room: <room-name>@conf.hipchat.com
 
 
 ## CAMPFIRE SETTINGS ##

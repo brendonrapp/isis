@@ -2,19 +2,13 @@ require 'isis/plugins/base'
 require 'nokogiri'
 require 'open-uri'
 
-class Isis::Plugin::PennyArcade < Isis::Plugin::Base
+class Isis::Plugin::FindMyIphone < Isis::Plugin::Base
 
-  def respond_to_msg?(msg)
-    msg.downcase == "!pa" ? true : false
+  def respond_to_msg?(msg, speaker)
+    msg.downcase == "!findmyiphone" ? true : false
   end
 
   def response
-    comic
-  end
-
-  def comic
-    page = Nokogiri::HTML(open('http://penny-arcade.com/comic/'))
-    image = page.css('.body > img').first
-    [image['src'], image['alt']]
+    "It's probably in your pocket"
   end
 end

@@ -28,7 +28,7 @@ class Isis::Plugin::TWSS < Isis::Plugin::Base
     @threshold = 0.5
   end
 
-  def respond_to_msg?(msg)
+  def respond_to_msg?(msg, speaker)
     # don't bother parsing if it's a command string
     if msg[0] == "!"
       false

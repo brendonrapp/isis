@@ -23,8 +23,6 @@ module Isis
       @config['enabled_plugins'].each do |plugin|
         self.plugins << eval(class_prefix + plugin).new
       end
-
-      puts self.plugins.to_s
     end
 
     def connect
@@ -43,12 +41,16 @@ module Isis
       @connection.register_plugins(self)
     end
 
+    def still_connected?
+      @connection.still_connected?
+    end
+
     def trap_signals
       [:INT, :TERM].each do |sig|
         trap(sig) do
           puts "Trapped signal #{sig.to_s}"
           puts "Shutting down gracefully"
-          self.speak "Home sweet hooome!"
+          self.speak "NO CARRIER"
           exit
         end
       end
@@ -59,6 +61,25 @@ module Isis
       trap_signals
       register_plugins
       join
+
+      i = 0
+
+      loop do
+        sleep 1
+        i += 1
+        
+        # am I still connected, bro? Check only every 10 seconds
+        if i >= 10
+          i = 0
+          unless still_connected?
+            puts "Disconnected! Reconnecting..."
+            connect
+            trap_signals
+            register_plugins
+            join
+          end
+        end
+      end
     end
   end
 end

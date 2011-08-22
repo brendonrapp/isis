@@ -6,9 +6,6 @@ module Isis
       #
       attr_accessor :config, :join_time
 
-      def initialize
-      end
-
       def load_config(loaded_config)
         @config = loaded_config
       end

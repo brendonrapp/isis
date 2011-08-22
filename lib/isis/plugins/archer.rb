@@ -77,10 +77,16 @@ class Isis::Plugin::Archer < Isis::Plugin::Base
       "\"Ugh. Just what Miami needs, more Cubans.\" -- Malory Archer",
       "\"Lana, come on. I think we both know it works fine.\" -- Sterling Archer",
       "\"Do you want ants? Because that is how you get ants!\" -- Malory Archer",
-      "\"Swear to god, Mr. Archer, I have HR on speed dial.\" -- Receptionist"
+      "\"Swear to god, Mr. Archer, I have HR on speed dial.\" -- Receptionist",
+      "\"That's good. Because I've waited my entire life to say this exact phrase: I'm commandeering this airboat!\" -- Sterling Archer",
+      "\"Don't blame me, it's those new low-flow toilets. With the old ones, you could flush a dachshund puppy! ... I mean, not that you would...\" -- Pam Poovey",
+      "\"CYRIL: \"Well next time, use the *women's* restroom\"  PAM: \"... the what?\"",
+      "\"Woooo! Airboat! Seriously, Lana, this must be what it's like to have sex with me\" -- Sterling Archer",
+      "\"LANA! I AM NOT. GONNA BLOW. THE..\" *engine explodes* -- Sterling Archer",
+      "\"Yeah, try clearing your throat about a jillion more times, Lana. See if that helps.\" -- Sterling Archer"
   ]
 
-  def respond_to_msg?(msg)
+  def respond_to_msg?(msg, speaker)
     msg.downcase == "!archer" ? true : false
   end
 
