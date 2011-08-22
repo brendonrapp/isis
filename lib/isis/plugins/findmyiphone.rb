@@ -1,6 +1,4 @@
 require 'isis/plugins/base'
-require 'nokogiri'
-require 'open-uri'
 
 class Isis::Plugin::FindMyIphone < Isis::Plugin::Base
 
