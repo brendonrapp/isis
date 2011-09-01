@@ -25,7 +25,7 @@ end
 class Isis::Plugin::TWSS < Isis::Plugin::Base
 
   def initialize
-    @threshold = 0.5
+    @threshold = 30.0
   end
 
   def respond_to_msg?(msg, speaker)
