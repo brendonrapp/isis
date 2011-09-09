@@ -14,16 +14,20 @@ class Isis::Plugin::QuickMeme < Isis::Plugin::Base
   end
 
   def grab_image(from)
-    case from.downcase
-    when random
-      page = Nokogiri::HTML(open('http://www.quickmeme.com/random/'))
-    when popular
-      page = Nokogiri::HTML(open('http://www.quickmeme.com/popular/'))
+    unless from.nil?
+      case from.downcase
+      when random
+        page = Nokogiri::HTML(open('http://www.quickmeme.com/random/'))
+      when popular
+        page = Nokogiri::HTML(open('http://www.quickmeme.com/popular/'))
+      else
+        page = Nokogiri::HTML(open('http://www.quickmeme.com'))
+      end
     else
       page = Nokogiri::HTML(open('http://www.quickmeme.com'))
     end
-
-    images = page.css('.memeThumb > a > img').all
+    
+    images = page.css('.memeThumb > a > img')
     image = images[rand(images.length)]
     image['src']
   end
