@@ -10,15 +10,15 @@ class Isis::Plugin::QuickMeme < Isis::Plugin::Base
   end
 
   def response
-    grab_image(@commands[1])
+    grab_image
   end
 
-  def grab_image(from)
-    unless from.nil?
-      case from.downcase
-      when random
+  def grab_image
+    unless @commands[1].nil?
+      case @commands[1].downcase
+      when "random"
         page = Nokogiri::HTML(open('http://www.quickmeme.com/random/'))
-      when popular
+      when "popular"
         page = Nokogiri::HTML(open('http://www.quickmeme.com/popular/'))
       else
         page = Nokogiri::HTML(open('http://www.quickmeme.com'))
