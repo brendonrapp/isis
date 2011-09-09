@@ -16,9 +16,11 @@ class Isis::Plugin::XKCD < Isis::Plugin::Base
 
     case @commands[1].downcase
     when "random"
-      random_comic  
+      random_comic
     when "new"
       new_comic
+    when "commands"
+      "Understood command arguments for !xkcd: new, random"
     else 
       "I have no idea what #{@commands[1]} means. No comic for you"
     end
