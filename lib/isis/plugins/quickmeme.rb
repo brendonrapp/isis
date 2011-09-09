@@ -6,7 +6,7 @@ class Isis::Plugin::QuickMeme < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
     @commands = msg.split
-    @commands[0] == "!qm" || "!quickmeme" ? true : false
+    @commands[0] == "!qm" ? true : false
   end
 
   def response
