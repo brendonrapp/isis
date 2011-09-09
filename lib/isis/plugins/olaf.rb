@@ -23,6 +23,8 @@ class Isis::Plugin::Olaf < Isis::Plugin::Base
       "Moscow"
     when "where"
       "Moscow"
+    when "commands"
+      "Understood commands for !olaf: metal, berserker"
     else
       nil
     end
