@@ -13,7 +13,13 @@ module Isis
     def initialize
       @config = YAML::load(File.read(File.join(ROOT_FOLDER, 'config.yml')))
       load_plugins
-      @connection = Isis::Connections::HipChat.new(config)
+      if @config['service'] == 'hipchat'
+        @connection = Isis::Connections::HipChat.new(config)
+      elsif @config['service'] == 'campfire'
+        @connection = Isis::Connections::Campfire.new(config)
+      else
+        puts "Invalid service selected - please check your config.yml"
+      end
     end
 
     def load_plugins
@@ -50,7 +56,7 @@ module Isis
         trap(sig) do
           puts "Trapped signal #{sig.to_s}"
           puts "Shutting down gracefully"
-          self.speak "NO CARRIER"
+          self.speak @config['bot']['goodbye']
           exit
         end
       end
