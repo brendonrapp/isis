@@ -25,26 +25,25 @@ end
 class Isis::Plugin::TWSS < Isis::Plugin::Base
 
   def initialize
-    @threshold = 30.0
+    @ignored_speakers = ["Git"]
   end
 
   def respond_to_msg?(msg, speaker)
     # don't bother parsing if it's a command string
     if msg[0] == "!"
       false
+    elsif @ignored_speakers.include?(speaker)
+      false
     else
       @shesaid = TWSS(msg)
-      @shesaid > @threshold
     end
   end
 
   def response
     case @shesaid
-    when 0.5..2
-      "that's what she said"
-    when 2..5
+    when 8..20
       "That's what she said!"
-    when 5..99
+    when 20..99
       "THAT'S WHAT SHE SAID!!"
     else
       nil

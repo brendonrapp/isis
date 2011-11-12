@@ -14,13 +14,17 @@ class Isis::Plugin::XKCD < Isis::Plugin::Base
       return new_comic
     end
 
+    if @commands[1].is_a? Integer
+      return selected_comic(@commands[1])
+    end
+
     case @commands[1].downcase
     when "random"
       random_comic
     when "new"
       new_comic
     when "commands"
-      "Understood command arguments for !xkcd: new, random"
+      "Understood command arguments for !xkcd: new, random, (number-of-comic)"
     else 
       "I have no idea what #{@commands[1]} means. No comic for you"
     end
@@ -37,4 +41,12 @@ class Isis::Plugin::XKCD < Isis::Plugin::Base
     image = page.css('.s > img').first
     [image['src'], image['title']]
   end
+
+  # TODO: handle 404 on invalid comic number
+  def selected_comic(number)
+    page = Nokogiri::HTML(open("http://xkcd.com/#{number}/"))
+    image = page.css('.s > img').first
+    [image['src'], image['title']]
+  end
+
 end

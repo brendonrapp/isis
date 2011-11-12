@@ -3,6 +3,14 @@ require 'isis/plugins/base'
 
 class Isis::Plugin::Archer < Isis::Plugin::Base
 
+  def respond_to_msg?(msg, speaker)
+    msg.downcase == "!archer" ? true : false
+  end
+
+  def response
+    "#{QUOTES[rand(QUOTES.size)]}"
+  end
+
   QUOTES = [
       "\"You better call Kenny Loggins. 'Cause you're in the danger zone.\" -- Sterling Archer",
       "\"No Cyril, when they're dead, they're just hookers!\" -- Sterling Archer",
@@ -85,12 +93,4 @@ class Isis::Plugin::Archer < Isis::Plugin::Base
       "\"LANA! I AM NOT. GONNA BLOW. THE..\" *engine explodes* -- Sterling Archer",
       "\"Yeah, try clearing your throat about a jillion more times, Lana. See if that helps.\" -- Sterling Archer"
   ]
-
-  def respond_to_msg?(msg, speaker)
-    msg.downcase == "!archer" ? true : false
-  end
-
-  def response
-    "#{QUOTES[rand(QUOTES.size)]}"
-  end
 end

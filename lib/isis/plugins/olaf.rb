@@ -10,7 +10,7 @@ class Isis::Plugin::Olaf < Isis::Plugin::Base
   def response
     case @commands[1].downcase
     when "metal"
-      "http://img834.imageshack.us/img834/5195/metalface.jpg"
+      ["http://img834.imageshack.us/img834/5195/metalface.jpg", "METAL FACE"]
     when "berserker"
       "http://www.youtube.com/watch?v=I4E08zeCqjo"
     when "berzerker"
