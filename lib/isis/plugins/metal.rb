@@ -11,7 +11,7 @@ class Isis::Plugin::Metal < Isis::Plugin::Base
   end
 
   RESPONSES = [
-    ["http://img834.imageshack.us/img834/5195/metalface.jpg", "METAL FACE"],
+    ["METAL FACE", "http://img834.imageshack.us/img834/5195/metalface.jpg"],
     "http://metalmotivation.com/wp-content/uploads/fistfulofmetal.jpg",
     "http://4.bp.blogspot.com/_QL6KeWBaxlM/TJgI3nDrcOI/AAAAAAAAAAU/eJDl10y5fbo/s1600/Heavy+Metal.jpg",
     "http://images2.layoutsparks.com/1/119240/heavy-metal-words-image.jpg",
