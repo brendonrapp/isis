@@ -3,7 +3,7 @@ require 'isis/plugins/base'
 class Isis::Plugin::LikeABoss < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
-    /like a boss/i =~ msg ? true : false
+    /like a (boss|baus|bau5)/i =~ msg ? true : false
   end
 
   def response

@@ -26,7 +26,17 @@ class Isis::Plugin::RandomResponses < Isis::Plugin::Base
     [/(\b3\.50\b|tree[\s]?fitty|loch[\s]?ness)/i, "http://troll.me/images/3fiddy/he-came-in-and-was-like-gimme-tree-fitty.jpg"],
     [/\bbadger(s)?\b/i, "http://media.247sports.com/Uploads/Boards/771/21771/43157.jpg"],
     [/\bvisual[\s]?basic\b/i, "http://www.youtube.com/watch?v=hkDD03yeLnU"],
-    [/\bthriller\b/i, "http://freddyo.com/wp-content/uploads/2010/03/jackson-lays-down-some-moves-in-the-zombie-dance-scene-from-his-1982-thriller-music-video-ct.jpg"]
-  ]
+    [/\bthriller\b/i, "http://freddyo.com/wp-content/uploads/2010/03/jackson-lays-down-some-moves-in-the-zombie-dance-scene-from-his-1982-thriller-music-video-ct.jpg"],
+    [/\bo[\s]?rly[\?]?/i, "http://memepics.com/wp-content/uploads/2011/05/ya-rly-owl.jpg"],
+    [/\bmagnet(s)?\b/i, "http://img403.imageshack.us/img403/4757/ingmagnets.jpg"],
+    [/\brent\b/i, "http://blog.rentaluniversity.com/wp-content/uploads/2010/10/Rent1.jpg"],
+    [/\banonymous\b/i, "http://assets.motherboard.tv/post_images/assets/000/008/979/anonymous_large.jpg"],
+    [/\bcar trouble\b/i, "http://www.towingsantarosaca.com/towingpetaluma/roadside-assistance-services-for-santa-rosa-bodega-bay-monte-rio-nido-ca.jpg"],
+    [/\bbobby tables\b/i, "http://imgs.xkcd.com/comics/exploits_of_a_mom.png"],
+    [/\bdevelopers developers\b/i, "http://www.everythingwm.com/wp-content/uploads/2010/11/developers-developers-developers.jpg"],
+    [/(outlook(.)*suck|outlook(.)*crash|crash(.)*outlook|outlook(.)*error|error(.)*outlook)/i, "http://farm2.static.flickr.com/1110/5102961691_28b373e40b.jpg"],
+    [/(\bblue[\s]?screen|bsod)/i, "http://www.hightech-edge.com/wp-content/uploads/unlicenese-windows-system-crash.jpg"],
+    [/\bmassive dynamic\b/i, "http://1.bp.blogspot.com/-op-S2WhOqrU/TZp2DjdpVqI/AAAAAAAAAPQ/ErYyWi2ODlY/s320/MassiveDynamic.png"]
+      ]
 
 end
