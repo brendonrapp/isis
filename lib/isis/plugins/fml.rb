@@ -13,7 +13,7 @@ class Isis::Plugin::FML < Isis::Plugin::Base
     selected = rand(page.css('.article > p').length)
     fml = page.css('.article > p')[selected].text
     link = page.css('.article > p')[selected].css('a').first['href']
-    number = page.css('.article')[seleted].css('.date .left_part a').text
+    number = page.css('.article')[selected].css('.date .left_part a').text
     "FML #{number}: \"#{fml}\" (link: http://fmylife.com#{link})"
   end
 end
