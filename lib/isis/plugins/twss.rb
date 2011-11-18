@@ -25,7 +25,7 @@ end
 class Isis::Plugin::TWSS < Isis::Plugin::Base
 
   def initialize
-    @ignored_speakers = ["Git"]
+    @ignored_speakers = ["Git", "The Greenbook"]
   end
 
   def respond_to_msg?(msg, speaker)
@@ -41,7 +41,7 @@ class Isis::Plugin::TWSS < Isis::Plugin::Base
 
   def response
     case @shesaid
-    when 8..20
+    when 10..20
       "That's what she said!"
     when 20..99
       "THAT'S WHAT SHE SAID!!"

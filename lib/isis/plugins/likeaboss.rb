@@ -25,6 +25,7 @@ class Isis::Plugin::LikeABoss < Isis::Plugin::Base
     "http://www.stabilitees.com/store/image/cache/data/Designs/like-a-boss-t-shirt-500x500.jpg",
     "http://s3.amazonaws.com/kym-assets/photos/images/original/000/114/151/14185212UtNF3Va6.gif",
     "http://knotoryus.com/wp-content/uploads/2009/04/boss.png",
-    "http://i1130.photobucket.com/albums/m532/Kaitlyn_Mathews/likeaboss.gif"
+    "http://i1130.photobucket.com/albums/m532/Kaitlyn_Mathews/likeaboss.gif",
+    "http://verydemotivational.files.wordpress.com/2011/11/demotivational-posters-like-a-boss3.jpg"
   ]
 end

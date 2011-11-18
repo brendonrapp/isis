@@ -31,12 +31,27 @@ class Isis::Plugin::RandomResponses < Isis::Plugin::Base
     [/\bmagnet(s)?\b/i, "http://img403.imageshack.us/img403/4757/ingmagnets.jpg"],
     [/\brent\b/i, "http://blog.rentaluniversity.com/wp-content/uploads/2010/10/Rent1.jpg"],
     [/\banonymous\b/i, "http://assets.motherboard.tv/post_images/assets/000/008/979/anonymous_large.jpg"],
-    [/\bcar trouble\b/i, "http://www.towingsantarosaca.com/towingpetaluma/roadside-assistance-services-for-santa-rosa-bodega-bay-monte-rio-nido-ca.jpg"],
+    [/(\bcar trouble\b|\bcar problems\b|\bcar issue\b)/i, "http://www.towingsantarosaca.com/towingpetaluma/roadside-assistance-services-for-santa-rosa-bodega-bay-monte-rio-nido-ca.jpg"],
     [/\bbobby tables\b/i, "http://imgs.xkcd.com/comics/exploits_of_a_mom.png"],
     [/\bdevelopers developers\b/i, "http://www.everythingwm.com/wp-content/uploads/2010/11/developers-developers-developers.jpg"],
-    [/(outlook(.)*suck|outlook(.)*crash|crash(.)*outlook|outlook(.)*error|error(.)*outlook)/i, "http://farm2.static.flickr.com/1110/5102961691_28b373e40b.jpg"],
+    [/(outlook(.)*suck|outlook(.)*crash|crash(.)*outlook|outlook(.)*error|error(.)*outlook|hate(.)*outlook|outlook(.)*hate)/i, "http://farm2.static.flickr.com/1110/5102961691_28b373e40b.jpg"],
     [/(\bblue[\s]?screen|bsod)/i, "http://www.hightech-edge.com/wp-content/uploads/unlicenese-windows-system-crash.jpg"],
-    [/\bmassive dynamic\b/i, "http://1.bp.blogspot.com/-op-S2WhOqrU/TZp2DjdpVqI/AAAAAAAAAPQ/ErYyWi2ODlY/s320/MassiveDynamic.png"]
-      ]
+    [/\bmassive dynamic\b/i, "http://1.bp.blogspot.com/-op-S2WhOqrU/TZp2DjdpVqI/AAAAAAAAAPQ/ErYyWi2ODlY/s320/MassiveDynamic.png"],
+    [/\bunix\b/i, "http://img521.imageshack.us/img521/5259/jpunix.png"],
+    [/\bschwartz\b/i, "http://verydemotivational.files.wordpress.com/2011/11/demotivational-posters-your-schwartz.jpg"],
+    [/(\bi didn't do\b|\bi did nothing\b)/i, "http://verydemotivational.files.wordpress.com/2011/11/demotivational-posters-i-swear.jpg"],
+    [/(\b3.14\b|\bpie\b)/i, "http://verydemotivational.files.wordpress.com/2011/11/demotivational-posters-mind-blown.jpg"],
+    [/\bdibs\b/i, "http://verydemotivational.files.wordpress.com/2011/11/demotivational-posters-dibs1.jpg"],
+    [/\bmordor\b/i, "http://verydemotivational.files.wordpress.com/2011/11/demotivational-posters-one-does-not-simply-occupy-mordor1.jpg"],
+    [/\bbad day\b/i, "http://bios.weddingbee.com/pics/79942/BadDay.jpg"],
+    [/\bprecious\b/i, "http://chzupnextinsports.files.wordpress.com/2010/12/funny-sports-pictures-my-precious.jpg"],
+    [/\bmonday\b/i, "http://3.bp.blogspot.com/_OvmuvHN8HnM/SoBa6BAgmXI/AAAAAAAABb8/pUZ0ESreKZs/s400/Mondays.jpg"],
+    [/\bsaturday\b/i, "http://images.icanhascheezburger.com/completestore/2009/1/27/128775669976738890.jpg"],
+    [/\bserious\b/i, "http://i199.photobucket.com/albums/aa284/FriarReb98/Caturday/SeriousCat2.jpg"],
+    [/\bthursday\b/i, "http://excusememe.com/pics/images/1301095266_thor-meets-rebecca-black-14742-1301090889-33.jpg"],
+    [/\bbroke the build\b/i, "http://troll.me/images/y-u-no/the-build-why-you-broke-it.jpg"],
+    [/\bwednesday\b/i, "http://i235.photobucket.com/albums/ee292/PalomaCortez/Happy-Wednesday.jpg"],
+    [/\bone of us\b/i, "http://img851.imageshack.us/img851/4459/oneofus.jpg"]
+  ]
 
 end

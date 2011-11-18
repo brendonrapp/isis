@@ -16,7 +16,7 @@ class Isis::Plugin::Futurama < Isis::Plugin::Base
   end
 
   REGEXPS = [
-    [/(\bacting\b|\bcalculon\b)/i, "calculon-image"],
+    [/(\bacting\b|\bcalculon\b)/i, "http://img257.imageshack.us/img257/2770/calculonacting.jpg"],
     [/\bsnoo snoo\b/i, "http://media.tumblr.com/tumblr_l27nvfY0M21qachms.jpg"],
     [/\broberto\b/i, "http://i8.photobucket.com/albums/a8/Bear_Micky_2/m_pic/_eskizi/futurama_roberto-wanted_250x390.jpg"],
     [/(\bhedonism\b|\bhedonism[\s]?bot\b|\bapologize\b)/i, "http://25.media.tumblr.com/tumblr_kpzxp5IIc81qzdsi5o1_400.jpg"],
