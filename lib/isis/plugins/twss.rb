@@ -41,9 +41,9 @@ class Isis::Plugin::TWSS < Isis::Plugin::Base
 
   def response
     case @shesaid
-    when 10..20
+    when 16..25
       "That's what she said!"
-    when 20..99
+    when 26..99
       "THAT'S WHAT SHE SAID!!"
     else
       nil
