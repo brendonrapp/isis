@@ -5,28 +5,26 @@ require 'open-uri'
 class Isis::Plugin::XKCD < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
-    @commands = msg.split
-    @commands[0] == "!xkcd" ? true : false
+    @commands = msg.downcase.split
+    @commands[0] == "!xkcd"
   end
 
   def response
-    if @commands[1].nil?
-      return new_comic
-    end
+    verb = @commands[1]
 
-    if @commands[1].is_a? Integer
-      return selected_comic(@commands[1])
-    end
-
-    case @commands[1].downcase
-    when "random"
-      random_comic
-    when "new"
+    return case
+    when verb.nil?
       new_comic
-    when "commands"
+    when verb.to_i.to_s == verb
+      selected_comic(verb)
+    when verb == "random"
+      random_comic
+    when verb == "new"
+      new_comic
+    when (verb == "commands" or verb == "help")
       "Understood command arguments for !xkcd: new, random, (number-of-comic)"
-    else 
-      "I have no idea what #{@commands[1]} means. No comic for you"
+    else
+      "I have no idea what #{verb} means. No comic for you."
     end
   end
 
