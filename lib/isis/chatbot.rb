@@ -12,6 +12,7 @@ module Isis
 
     def initialize
       @config = YAML::load(File.read(File.join(ROOT_FOLDER, 'config.yml')))
+      Thread.new { EM.run }
       load_plugins
       if @config['service'] == 'hipchat'
         @connection = Isis::Connections::HipChat.new(config)
