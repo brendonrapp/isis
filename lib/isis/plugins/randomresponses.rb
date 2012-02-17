@@ -51,7 +51,7 @@ class Isis::Plugin::RandomResponses < Isis::Plugin::Base
     [/\bthursday\b/i, "http://excusememe.com/pics/images/1301095266_thor-meets-rebecca-black-14742-1301090889-33.jpg"],
     [/\bbroke the build\b/i, "http://troll.me/images/y-u-no/the-build-why-you-broke-it.jpg"],
     [/\bwednesday\b/i, "http://i235.photobucket.com/albums/ee292/PalomaCortez/Happy-Wednesday.jpg"],
-    [/\blearn ruby\b/i, ["Learn Ruby or DIE","http://img405.imageshack.us/img405/3670/yourlifecoulddependonit.jpg"],
+    [/\blearn ruby\b/i, ["Learn Ruby or DIE","http://img405.imageshack.us/img405/3670/yourlifecoulddependonit.jpg"]],
     [/\bone of us\b/i, "http://img851.imageshack.us/img851/4459/oneofus.jpg"]
   ]
 
