@@ -2,6 +2,7 @@ require 'isis/plugins/base'
 require 'nokogiri'
 require 'open-uri'
 require 'sequel'
+require 'eventmachine'
 
 class Isis::Plugin::XKCD < Isis::Plugin::Base
   def initialize
@@ -66,6 +67,8 @@ private
 
     # create a dataset from the items table
     comics = @db[:comics]
+
+    EM.next_tick do
       id_parse = /(\d+)/ # ID parsing regexp
       archive = Nokogiri::HTML(open('http://xkcd.com/archive/'))
 
@@ -82,6 +85,8 @@ private
 
       # print out the number of records
       puts "xkcd: Loaded #{comics.count} comics"
+    end # end EM
+
   end
 
 end
