@@ -1,8 +1,14 @@
 require 'isis/plugins/base'
 require 'nokogiri'
 require 'open-uri'
+require 'sequel'
 
 class Isis::Plugin::XKCD < Isis::Plugin::Base
+  def initialize
+    # Setup Comic Archive
+    @dbready = false
+    load_archive
+  end
 
   def respond_to_msg?(msg, speaker)
     @commands = msg.downcase.split
@@ -34,17 +40,48 @@ class Isis::Plugin::XKCD < Isis::Plugin::Base
     [image['src'], image['title']]
   end
 
-  def random_comic
-    page = Nokogiri::HTML(open('http://dynamic.xkcd.com/random/comic/'))
-    image = page.css('.s > img').first
-    [image['src'], image['title']]
+private
+  def load_comic(url)
+      page = Nokogiri::HTML(open(url))
+      if(match = /(\d+)/.match(page.at('#middleContent .s h3').inner_html))
+        @last_comic = match.captures.first.to_i
+
+        image = page.at('#middleContent .s img')
+        ["broken"+image['src'], image['title']]
+      else
+        "404??"
+    end
   end
 
-  # TODO: handle 404 on invalid comic number
-  def selected_comic(number)
-    page = Nokogiri::HTML(open("http://xkcd.com/#{number}/"))
-    image = page.css('.s > img').first
-    [image['src'], image['title']]
+  def load_archive
+    # connect to an in-memory database
+    @db = Sequel.sqlite
+
+    # create an items table
+    @db.create_table :comics do
+      primary_key :id
+      String :name
+      String :date
+    end
+
+    # create a dataset from the items table
+    comics = @db[:comics]
+      id_parse = /(\d+)/ # ID parsing regexp
+      archive = Nokogiri::HTML(open('http://xkcd.com/archive/'))
+
+      archive.css('.s > a').each do |data|
+        if(match = id_parse.match(data[:href]))
+          comic_id = match.captures.first
+
+          # puts "#{comic_id} #{data.inner_html} #{data[:title]}\n"
+          comics.insert(:id => comic_id, :name => data.inner_html, :date => data[:title])
+        end
+      end
+      @last_comic = comics.max(:id)
+      @dbready = true
+
+      # print out the number of records
+      puts "xkcd: Loaded #{comics.count} comics"
   end
 
 end
