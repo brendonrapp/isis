@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
+require "bundler/setup"
 require 'daemons'
 
-Daemons.run('isis-run.rb')
+Daemons.run File.dirname(__FILE__) + '/isis-run.rb', :app_name => 'isis'
