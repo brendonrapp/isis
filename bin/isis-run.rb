@@ -9,7 +9,9 @@ end
 require 'isis'
 require 'isis/chatbot'
 
-@bot = Isis::Chatbot.new
+EM.run do
+  @bot = Isis::Chatbot.new
 
-# Tramps like us, baby we were born to...
-@bot.run
+  # Tramps like us, baby we were born to...
+  @bot.run
+end

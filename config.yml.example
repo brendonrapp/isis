@@ -6,17 +6,17 @@ service: hipchat
 
 ## HIPCHAT SETTINGS ##
 hipchat:
-  jid: <jid>
-  name: <name>
+  jid: DDDD_XXXXX@chat.hipchat.com
+  name: Full Name
   password: <password>
-  room: <room-name>@conf.hipchat.com
+  room: DDDD_room_name@conf.hipchat.com
 
 ## CAMPFIRE SETTINGS ##
 campfire:
   subdomain: subdomain  # from subdomain.campfirenow.com
   # auth_mode: Can use API key or username/password.
   # Supported values: api, username
-  auth_mode: api        
+  auth_mode: api
   api_key: api_key_goes_here  # enter if using "api" auth_mode
   username: username          # enter if using "username" auth_mode
   password: password          # also enter if using "username" auth_mode

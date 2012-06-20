@@ -1,8 +1,23 @@
+GIT
+  remote: https://github.com/g1nn13/em-timers.git
+  revision: c42402a1444a9d9e332c9136881bbec6c4ab23bc
+  specs:
+    em-timers (0.2.0)
+      eventmachine
+
+GIT
+  remote: https://github.com/ln/xmpp4r.git
+  revision: 2dc321a924fa981b0d47180e1a01bc3301c1738c
+  specs:
+    xmpp4r (0.5)
+
 GEM
   remote: http://www.rubygems.org/
   specs:
     activesupport (3.0.9)
     addressable (2.2.6)
+    amatch (0.2.10)
+      tins (~> 0.3)
     classifier (1.3.1)
       stemmer (>= 1.0.0)
     daemons (1.1.4)
@@ -16,7 +31,6 @@ GEM
     multipart-post (1.1.3)
     nokogiri (1.5.0)
     rack (1.3.2)
-    sequel (3.32.0)
     simple_oauth (0.1.5)
     stemmer (1.0.1)
     tinder (1.4.4)
@@ -26,21 +40,22 @@ GEM
       mime-types
       multipart-post
       twitter-stream
+    tins (0.3.12)
     twitter-stream (0.1.14)
       eventmachine (>= 0.12.8)
       http_parser.rb (~> 0.5.1)
       simple_oauth (~> 0.1.4)
     twss (0.0.5)
       classifier (= 1.3.1)
-    xmpp4r (0.5)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  amatch
   daemons
+  em-timers!
   nokogiri
-  sequel
   tinder
   twss
-  xmpp4r
+  xmpp4r!

@@ -54,7 +54,6 @@ class Isis::Connections::Campfire < Isis::Connections::Base
   def join
     @room = @client.find_room_by_name(@config['campfire']['room'])
     @room.join
-    self.speak @config['bot']['hello']
   end
 
   def speak(message)

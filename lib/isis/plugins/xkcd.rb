@@ -1,8 +1,8 @@
 require 'isis/plugins/base'
 require 'nokogiri'
 require 'open-uri'
-require 'sequel'
 require 'eventmachine'
+require 'amatch'
 
 class Isis::Plugin::XKCD < Isis::Plugin::Base
   def initialize
@@ -44,13 +44,13 @@ class Isis::Plugin::XKCD < Isis::Plugin::Base
       selected_comic(@last_comic)
 
     when verb == "date"
-      @db[:comics].where(:id => @last_comic).select(:date).first[:date]
+      @comic_dates[ @last_comic ]
 
     when verb == "number"
       @last_comic.to_s
 
-    when verb == "d"
-      "COMIC index: #{@last_comic}, count: #{@db[:comics].count}, max: #{@db[:comics].max(:id)}, min: #{@db[:comics].min(:id)}"
+    when verb == "reload"
+      load_archive
 
     when (verb == "commands" or verb == "help" or verb == "--help" or verb == "-h")
       "Understood command arguments for !xkcd:\n"+
@@ -63,16 +63,22 @@ class Isis::Plugin::XKCD < Isis::Plugin::Base
       "\tnumber: get number of last comic"
 
     else
-      "I have no idea what #{verb} means. Please come again."
+      result = find_comic @commands[1,100].join(" ")
+      if result.is_a?(Integer)
+        selected_comic result
+      elsif result.is_a?(NilClass)
+        "No Comics found"
+      else
+        result.collect {|r,id| "#{"%.2f"% (r*100)}% ##{id} \"#{@comic_titles[id]}\""}
+      end
 
     end
   end
 
-
   def selected_comic(number)
     case
-    when(number <= @db[:comics].max(:id) and number >= @db[:comics].min(:id))
-      # @last_comic = number
+    when(number <= @comic_count and number > 0)
+      # @comic_count = number
       load_comic "http://xkcd.com/#{number}/"
 
     when number < 0
@@ -82,7 +88,7 @@ class Isis::Plugin::XKCD < Isis::Plugin::Base
       ["THERE IS NO COMIC ZERO"]
 
     else # number > comic.max
-      ["xkcd has produced #{@db[:comics].max(:id)} comics. try one of those."]
+      ["xkcd has produced #{@comic_count} comics. try one of those."]
 
     end
   end
@@ -90,49 +96,72 @@ class Isis::Plugin::XKCD < Isis::Plugin::Base
 private
   def load_comic(url)
       page = Nokogiri::HTML(open(url))
-      if(match = /(\d+)/.match(page.at('#middleContent .s h3').inner_html))
+      if(match = /Permanent link to this comic: http:\/\/xkcd\.com\/(\d+)\//.match(page.css('#middleContainer').inner_html))
         @last_comic = match.captures.first.to_i
 
-        image = page.at('#middleContent .s img')
-        [image['src'], image['title']]
+        image = page.at('#comic img')
+        [ "##{@last_comic} \"#{@comic_titles[@last_comic]}\" (#{@comic_dates[@last_comic]}) #{image['src']}", image['title'] ]
       else
         "404??"
     end
   end
 
-  def load_archive
-    # connect to an in-memory database
-    @db = Sequel.sqlite
+  def find_comic(str)
+    jarow = Amatch::JaroWinkler.new( str )
 
-    # create an items table
-    @db.create_table :comics do
-      primary_key :id
-      String :name
-      String :date
+    possible = {}
+    @comic_titles.each do |id,title|
+      rating = jarow.match title
+
+      if rating > 0.6
+        # puts "#{rating} - #{title} ##{id}"
+        possible.merge! rating => id
+      end
+
     end
+    return nil if possible.empty?
 
-    # create a dataset from the items table
-    comics = @db[:comics]
+    # Heighest 5 rating comics
+    possible = possible.sort[-5,5].reverse
 
+    if possible.first.first > 0.85
+      possible.first.last
+    else
+      possible
+    end
+  end
+  # r = find_comic "beat"
+
+  def load_archive
+
+    @comic_dates = {}
+    @comic_titles = {}
+
+    # Load Asynchronusly
     EM.next_tick do
       id_parse = /(\d+)/ # ID parsing regexp
       archive = Nokogiri::HTML(open('http://xkcd.com/archive/'))
 
-      archive.css('.s > a').each do |data|
+      archive.css('#middleContainer > a').each do |data|
         if(match = id_parse.match(data[:href]))
-          comic_id = match.captures.first
-
+          comic_id = match.captures.first.to_i
+          @comic_dates.merge! comic_id => data[:title]
+          @comic_titles.merge! comic_id => data.inner_html
           # puts "#{comic_id} #{data.inner_html} #{data[:title]}\n"
-          comics.insert(:id => comic_id, :name => data.inner_html, :date => data[:title])
         end
       end
-      @last_comic = comics.max(:id)
+      @last_comic = @comic_titles.count
+      @comic_count = @last_comic.to_i
+
       @dbready = true
 
-      # print out the number of records
-      puts "xkcd: Loaded #{comics.count} comics"
-    end # end EM
+      # puts @comic_titles.inspect
+      # puts @comic_dates.inspect
 
+      # print out the number of records
+      puts "xkcd: Loaded #{@last_comic} comics"
+    end # end EM
+    "Refreshing Comics..."
   end
 
 end
