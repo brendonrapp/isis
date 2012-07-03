@@ -11,7 +11,7 @@ class Isis::Plugin::HipRepeater < Isis::Plugin::Base
     @msg = msg
 
     MAP.each do |k,v|
-      if msg.match /\b#{k}\b/i
+      if msg.match /#{k}\b/i
         @msg = @msg.gsub /#{k}/i, v
         matched = true
       end
