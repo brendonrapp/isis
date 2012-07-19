@@ -42,7 +42,7 @@ module Isis
     end
 
     def speak(message)
-      @connection.speak message
+      @connection.yell message
     end
 
     def register_plugins
