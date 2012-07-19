@@ -9,7 +9,9 @@ hipchat:
   jid: DDDD_XXXXX@chat.hipchat.com
   name: Full Name
   password: <password>
-  room: DDDD_room_name@conf.hipchat.com
+  rooms:
+    - DDDD_room_name@conf.hipchat.com
+    # - DDDD_second_room_name@conf.hipchat.com
 
 ## CAMPFIRE SETTINGS ##
 campfire:
@@ -20,7 +22,7 @@ campfire:
   api_key: api_key_goes_here  # enter if using "api" auth_mode
   username: username          # enter if using "username" auth_mode
   password: password          # also enter if using "username" auth_mode
-  room: room_name
+  room: room_name             # only supports one room for campfire
   ssl: true
 
 ## BOT SETTINGS ##

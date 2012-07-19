@@ -13,7 +13,11 @@ class Isis::Connections::HipChat < Isis::Connections::Base
   def initialize(config)
     load_config(config)
     @client = Jabber::Client.new(@config['hipchat']['jid'])
-    @muc = Jabber::MUC::SimpleMUCClient.new(client)
+
+    @muc = {}
+    @config['hipchat']['rooms'].each do |room|
+      @muc[room] = Jabber::MUC::SimpleMUCClient.new(client)
+    end
   end
 
   def send_jabber_presence
@@ -35,7 +39,13 @@ class Isis::Connections::HipChat < Isis::Connections::Base
   end
 
   def register_plugins(bot)
-    @muc.on_message do |time, speaker, message|
+    @muc.each do |room,muc|
+      register_plugins_internal(muc, bot)
+    end
+  end
+
+  def register_plugins_internal(muc, bot)
+    muc.on_message do |time, speaker, message|
       # |time| is useless - comes back blank
       # we must fend for ourselves
 
@@ -53,36 +63,42 @@ class Isis::Connections::HipChat < Isis::Connections::Base
             response = plugin.receive_message(message, speaker)
             unless response.nil?
               if response.respond_to?('each')
-                response.each do |line|
-                  self.speak line
-                end
+                response.each {|line| speak(muc, line)}
               else
-                self.speak response
+                speak(muc, response)
               end
             end
           rescue => e
-            self.speak "ERROR: Plugin #{plugin.class.name} just crashed"
-            self.speak "Message: #{e.message}"
+            speak muc, "ERROR: Plugin #{plugin.class.name} just crashed"
+            speak muc, "Message: #{e.message}"
           end
         end
       end
     end
 
-    @muc.on_private_message do |time, speaker, message|
+    muc.on_private_message do |time, speaker, message|
       nil
     end
 
-    @muc.on_room_message do |time, message|
+    muc.on_room_message do |time, message|
       nil
     end
   end
 
   def join
-    @muc.join "#{@config['hipchat']['room']}/#{@config['hipchat']['name']}", :history => false
+    @muc.each do |room,muc|
+      muc.join "#{room}/#{@config['hipchat']['name']}", :history => false
+    end
   end
 
-  def speak(message)
-    @muc.send Jabber::Message.new(@muc.room, message)
+  def yell(message)
+    @muc.each do |room,muc|
+      muc.send Jabber::Message.new(muc.room, message)
+    end
+  end
+
+  def speak(muc, message)
+    muc.send Jabber::Message.new(muc.room, message)
   end
 
   def still_connected?
