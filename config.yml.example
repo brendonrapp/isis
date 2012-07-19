@@ -30,8 +30,18 @@ bot:
 
 ## PLUGIN SETTINGS ##
 enabled_plugins:
+  - HipRepeater
+  - RandomResponses
+
   - Archer
-  - XKCD
-  - TWSS
+  - Bash
+  - Futurama
+  - LikeABoss
+  - Olaf
   - PennyArcade
-  - FindMyIphone
+  - QuickMeme
+  - WalMart
+  - XKCD
+  # - EpicFail
+  # - FML
+  # - TWSS
