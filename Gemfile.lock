@@ -6,8 +6,8 @@ GIT
       eventmachine
 
 GIT
-  remote: https://github.com/ln/xmpp4r.git
-  revision: 2dc321a924fa981b0d47180e1a01bc3301c1738c
+  remote: https://github.com/whitehat101/xmpp4r.git
+  revision: 1698e9ad0696c0710aa5499be849c9e695c5d649
   specs:
     xmpp4r (0.5)
 

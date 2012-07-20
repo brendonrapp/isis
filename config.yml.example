@@ -9,6 +9,7 @@ hipchat:
   jid: DDDD_XXXXX@chat.hipchat.com
   name: Full Name
   password: <password>
+  history: 3 # num of history fields to request
   rooms:
     - DDDD_room_name@conf.hipchat.com
     # - DDDD_second_room_name@conf.hipchat.com

@@ -1,5 +1,5 @@
 source 'http://www.rubygems.org'
-gem 'xmpp4r', :git => "https://github.com/ln/xmpp4r.git" # the history bug has been patched, but a new version has not been released
+gem 'xmpp4r', :git => "https://github.com/whitehat101/xmpp4r.git" # merge features test
 gem 'tinder'
 gem 'twss'
 gem 'daemons'

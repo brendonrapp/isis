@@ -87,7 +87,7 @@ class Isis::Connections::HipChat < Isis::Connections::Base
 
   def join
     @muc.each do |room,muc|
-      muc.join "#{room}/#{@config['hipchat']['name']}", :history => false
+      muc.join "#{room}/#{@config['hipchat']['name']}", :history => @config['hipchat']['history'].to_i
     end
   end
 
