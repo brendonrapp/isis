@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/whitehat101/xmpp4r.git
-  revision: 1698e9ad0696c0710aa5499be849c9e695c5d649
+  revision: c305802ca2b7dcfdd41853935a234d3688e7251f
   specs:
     xmpp4r (0.5)
 
