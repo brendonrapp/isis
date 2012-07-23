@@ -53,6 +53,7 @@ class Isis::Connections::HipChat < Isis::Connections::Base
       sudo = message.match /^sudo (.+)/
       message = sudo[1] if sudo
 
+      puts "MESSAGE: s:#{speaker} m:#{message}"
       # ignore our own messages
       if speaker == @config['hipchat']['name'] and not sudo
         nil
@@ -77,16 +78,18 @@ class Isis::Connections::HipChat < Isis::Connections::Base
     end
 
     muc.on_private_message do |time, speaker, message|
-      nil
+      puts "private-MESSAGE: s:#{sudo} s:#{speaker} m:#{message}"
     end
 
     muc.on_room_message do |time, message|
-      nil
+      puts "room-MESSAGE: s:#{sudo} s:#{speaker} m:#{message}"
     end
   end
+  private :register_plugins_internal
 
   def join
     @muc.each do |room,muc|
+      puts "Joining: #{room}/#{@config['hipchat']['name']} maxstanzas:#{@config['hipchat']['history']}"
       muc.join "#{room}/#{@config['hipchat']['name']}", @config['hipchat']['password'], :history => @config['hipchat']['history']
     end
   end
