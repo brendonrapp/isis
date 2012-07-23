@@ -4,6 +4,7 @@
 require 'xmpp4r'
 require 'xmpp4r/muc/helper/simplemucclient'
 require 'isis/connections/base'
+require 'em-timers'
 
 class Isis::Connections::HipChat < Isis::Connections::Base
 
@@ -91,6 +92,12 @@ class Isis::Connections::HipChat < Isis::Connections::Base
     @muc.each do |room,muc|
       puts "Joining: #{room}/#{@config['hipchat']['name']} maxstanzas:#{@config['hipchat']['history']}"
       muc.join "#{room}/#{@config['hipchat']['name']}", @config['hipchat']['password'], :history => @config['hipchat']['history']
+
+      # if room === '1859_jeremy_bot@conf.hipchat.com'
+      if room === '1859_engineering_room@conf.hipchat.com'
+        EM::Timers.cron('40 5 * * 1-5') { speak muc, "sudo !archer" }
+        EM::Timers.cron('55 5 * * 1-5') { speak muc, "sudo !archer" }
+      end
     end
   end
 
