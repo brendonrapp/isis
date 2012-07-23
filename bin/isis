@@ -1,6 +1,11 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-require "bundler/setup"
+require 'bundler/setup'
 require 'daemons'
 
-Daemons.run File.dirname(__FILE__) + '/isis-run.rb', :app_name => 'isis'
+Daemons.run "#{File.dirname(__FILE__)}/isis-run.rb",
+  :app_name   => 'isis',
+  :dir        => '../tmp/',
+  :log_output => true,
+  :backtrace  => true,
+  :monitor    => true
