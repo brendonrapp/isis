@@ -4,7 +4,7 @@ class Isis::Plugin::Olaf < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
     @commands = msg.split
-    @commands[0].downcase == "!olaf" ? true : false
+    @commands[0].downcase == "!olaf"
   end
 
   def response

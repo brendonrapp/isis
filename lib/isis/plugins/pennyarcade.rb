@@ -5,7 +5,7 @@ require 'open-uri'
 class Isis::Plugin::PennyArcade < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
-    msg.downcase == "!pa" ? true : false
+    msg.downcase == "!pa"
   end
 
   def response

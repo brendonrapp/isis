@@ -5,7 +5,7 @@ require 'open-uri'
 class Isis::Plugin::Bash < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
-    /\b[!]?bash\b/i =~ msg ? true : false
+    /\b[!]?bash\b/i =~ msg
   end
 
   def response

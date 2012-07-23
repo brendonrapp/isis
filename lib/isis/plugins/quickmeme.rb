@@ -6,7 +6,7 @@ class Isis::Plugin::QuickMeme < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
     @commands = msg.split
-    @commands[0] == "!qm" ? true : false
+    @commands[0] == "!qm"
   end
 
   def response
@@ -26,7 +26,7 @@ class Isis::Plugin::QuickMeme < Isis::Plugin::Base
     else
       page = Nokogiri::HTML(open('http://www.quickmeme.com'))
     end
-    
+
     images = page.css('.memeThumb > a > img')
     image = images[rand(images.length)]
     image['src']

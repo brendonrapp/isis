@@ -4,7 +4,7 @@ require 'isis/plugins/base'
 class Isis::Plugin::Archer < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
-    msg.downcase == "!archer" ? true : false
+    msg.downcase == "!archer"
   end
 
   def response
