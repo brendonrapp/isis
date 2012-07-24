@@ -95,8 +95,8 @@ class Isis::Connections::HipChat < Isis::Connections::Base
 
       # if room === '1859_jeremy_bot@conf.hipchat.com'
       if room === '1859_engineering_room@conf.hipchat.com'
-        EM::Timers.cron('40 5 * * 1-5') { speak muc, "sudo !archer" }
-        EM::Timers.cron('55 5 * * 1-5') { speak muc, "sudo !archer" }
+        EM::Timers.cron('40 8 * * 1-5') { speak muc, "sudo !archer" }
+        EM::Timers.cron('55 8 * * 1-5') { speak muc, "sudo !archer" }
       end
     end
   end
