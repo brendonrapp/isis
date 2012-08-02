@@ -3,4 +3,12 @@ require 'rubygems'
 require "bundler/setup"
 require 'daemons'
 
-Daemons.run File.dirname(__FILE__) + '/isis-run.rb', :app_name => 'isis'
+options = { 
+  :app_name => 'isis', 
+  :dir_mode => :normal,
+  :dir      => '/var/run',
+  :log_dir  => '/var/log',
+  :multiple => false
+}
+
+Daemons.run File.dirname(__FILE__) + '/isis-run.rb', options
