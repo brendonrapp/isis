@@ -3,7 +3,7 @@ require 'isis/plugins/base'
 class Isis::Plugin::Metal < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
-    /\bmetal\b/i =~ msg ? true : false
+    /\bmetal\b/i =~ msg
   end
 
   def response

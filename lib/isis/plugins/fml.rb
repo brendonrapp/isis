@@ -5,7 +5,7 @@ require 'open-uri'
 class Isis::Plugin::FML < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
-    /\b[!]?fml\b/i =~ msg ? true : false
+    /\b[!]?fml\b/i =~ msg
   end
 
   def response

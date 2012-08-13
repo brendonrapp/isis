@@ -1,8 +1,11 @@
 source 'http://www.rubygems.org'
-gem 'xmpp4r', :git => "https://github.com/ln/xmpp4r.git" # the history bug has been patched, but a new version has not been released
-gem 'tinder'
-gem 'twss'
+# The released xmppr4 gem is quite dated, and has bugs
+gem 'xmpp4r', :git => "https://github.com/whitehat101/xmpp4r.git" # merge features test
+gem 'tinder' # Campfire
 gem 'daemons'
+
+# Plugins
+gem 'twss'
 gem 'nokogiri'
 gem 'amatch'
 gem 'em-timers', :git => "https://github.com/g1nn13/em-timers.git"

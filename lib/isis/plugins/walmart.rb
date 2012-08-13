@@ -5,7 +5,7 @@ require 'open-uri'
 class Isis::Plugin::WalMart < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
-    /wal[-\*]?mart/i =~ msg ? true : false
+    /wal[-\*]?mart/i =~ msg
   end
 
   def response

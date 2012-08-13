@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-require "bundler/setup"
+require 'bundler/setup'
 require 'daemons'
 
 options = { 
@@ -8,7 +8,9 @@ options = {
   :dir_mode => :normal,
   :dir      => '/var/run',
   :log_dir  => '/var/log',
-  :multiple => false
+  :log_output => true,
+  :backtrace => true,
+  :monitor => true
 }
 
 Daemons.run File.dirname(__FILE__) + '/isis-run.rb', options

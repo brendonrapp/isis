@@ -8,7 +8,7 @@ require 'open-uri'
 class Isis::Plugin::EpicFail < Isis::Plugin::Base
 
   def respond_to_msg?(msg, speaker)
-    /\bfail\b/i =~ msg ? true : false
+    /\bfail\b/i =~ msg
   end
 
   def response

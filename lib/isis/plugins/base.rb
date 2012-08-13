@@ -4,7 +4,7 @@ module Isis
   module Plugin
     class Base
       def receive_message(msg, speaker)
-        self.respond_to_msg?(msg, speaker) ? self.response : nil
+        respond_to_msg?(msg, speaker) ? response : nil
       end
     end
   end

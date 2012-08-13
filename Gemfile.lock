@@ -6,8 +6,8 @@ GIT
       eventmachine
 
 GIT
-  remote: https://github.com/ln/xmpp4r.git
-  revision: 2dc321a924fa981b0d47180e1a01bc3301c1738c
+  remote: https://github.com/whitehat101/xmpp4r.git
+  revision: c305802ca2b7dcfdd41853935a234d3688e7251f
   specs:
     xmpp4r (0.5)
 
@@ -20,7 +20,7 @@ GEM
       tins (~> 0.3)
     classifier (1.3.1)
       stemmer (>= 1.0.0)
-    daemons (1.1.4)
+    daemons (1.1.8)
     eventmachine (0.12.10)
     faraday (0.5.7)
       addressable (~> 2.2.4)
