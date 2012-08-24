@@ -13,8 +13,11 @@ class Isis::Connections::HipChat < Isis::Connections::Base
 
   def initialize(config)
     load_config(config)
-    @client = Jabber::Client.new(@config['hipchat']['jid'])
+    create_jabber_and_mucs
+  end
 
+  def create_jabber_and_mucs
+    @client = Jabber::Client.new(@config['hipchat']['jid'])
     @muc = {}
     @config['hipchat']['rooms'].each do |room|
       @muc[room] = Jabber::MUC::SimpleMUCClient.new(client)
@@ -30,6 +33,16 @@ class Isis::Connections::HipChat < Isis::Connections::Base
     @client.auth(@config['hipchat']['password'])
     send_jabber_presence
     @join_time = Time.now
+  end
+
+  def reconnect
+    kill_and_clean_up
+    create_jabber_and_mucs
+    connect
+  end
+
+  def kill_and_clean_up
+    @client.close
   end
 
   def register_disconnect_callback
@@ -85,18 +98,26 @@ class Isis::Connections::HipChat < Isis::Connections::Base
     muc.on_room_message do |time, message|
       puts "room-MESSAGE: s:#{sudo} s:#{speaker} m:#{message}"
     end
+
+    # Set welcome messages
+    # DEBUG: bot.hello_messages should be empty here
+    puts "DEBUG: bot.hello_messages not empty!" unless bot.hello_messages.empty?
+    bot.hello_messages = []
+    bot.plugins.each do |plugin|
+      bot.hello_messages.push plugin.hello_message if plugin.hello_message
+    end
+
   end
   private :register_plugins_internal
 
   def join
     @muc.each do |room,muc|
       puts "Joining: #{room}/#{@config['hipchat']['name']} maxstanzas:#{@config['hipchat']['history']}"
-      muc.join "#{room}/#{@config['hipchat']['name']}", @config['hipchat']['password'], :history => @config['hipchat']['history']
-
-      # if room === '1859_jeremy_bot@conf.hipchat.com'
-      if room === '1859_engineering_room@conf.hipchat.com'
-        EM::Timers.cron('40 8 * * 1-5') { speak muc, "sudo !archer" }
-        EM::Timers.cron('55 8 * * 1-5') { speak muc, "sudo !archer" }
+      begin
+        muc.join "#{room}/#{@config['hipchat']['name']}", @config['hipchat']['password'], :history => @config['hipchat']['history']
+      rescue => e
+        puts "## EXCEPTION in Hipchat join: #{e.message}"
+        bot.recover_from_exception
       end
     end
   end

@@ -8,11 +8,29 @@ require 'isis/connections'
 module Isis
   class Chatbot
 
-    attr_accessor :config, :connection, :plugins
+    attr_accessor :config, :connection, :plugins, :hello_messages
 
     def initialize
-      @config = YAML::load(File.read(File.join(ROOT_FOLDER, 'config.yml')))
+      load_config
       load_plugins
+      create_connection
+    end
+
+    def load_config
+      @config = YAML::load(File.read(File.join(ROOT_FOLDER, 'config.yml')))
+    end
+
+    def load_plugins
+      @plugins = []
+      class_prefix = "Isis::Plugin::"
+      @config['enabled_plugins'].each do |plugin|
+        @plugins << eval(class_prefix + plugin).new
+      end
+    end
+
+    def create_connection
+      @config['hipchat']['history'] = 0 if @disable_history  # HACK for now
+      @hello_messages = []
       @connection = case @config['service']
       when 'hipchat'
         Isis::Connections::HipChat.new(config)
@@ -23,26 +41,50 @@ module Isis
       end
     end
 
-    def load_plugins
-      self.plugins = []
-      class_prefix = "Isis::Plugin::"
-
-      @config['enabled_plugins'].each do |plugin|
-        self.plugins << eval(class_prefix + plugin).new
-      end
+    # Recreate connection with no history loading, so we don't load any messages
+    # that may have triggered the exception
+    def recover_from_exception
+      @disable_history = true
+      create_connection
     end
 
     def connect
       @connection.connect
     end
 
+    def reconnect
+      @connection.reconnect
+    end
+
     def join
-      @connection.join
-      EventMachine::Timer.new(1) { speak @config['bot']['hello'] }
+      begin
+        @connection.join
+        EventMachine::Timer.new(1) do
+          say_hello_messages
+        end
+      rescue => e
+        puts "## EXCEPTION in Chatbot join: #{e.message}"
+        recover_from_exception
+      end
+    end
+
+    # Allow plugin to hook in and set @hello_messages
+    # Only do the default 'hello' message if no plugins have set hello messages
+    def say_hello_messages
+      @hello_messages.push @config['bot']['hello'] if @hello_messages.empty?
+      @hello_messages.each do |hm|
+        puts "saying hello message: #{hm}"
+        speak hm
+      end
     end
 
     def speak(message)
-      @connection.yell message
+      begin
+        @connection.yell message
+      rescue => e
+        puts "## EXCEPTION in Chatbot speak: #{e.message}"
+        recover_from_exception
+      end
     end
 
     def register_plugins
@@ -71,16 +113,15 @@ module Isis
       join
 
       # am I still connected, bro? Check every 10 seconds
-      EventMachine::add_periodic_timer(10) {
+      EventMachine::add_periodic_timer(10) do
         unless still_connected?
           puts "Disconnected! Reconnecting..."
-          connect
+          reconnect
           trap_signals
           register_plugins
           join
         end
-      }
+      end  
     end
-
   end
 end
