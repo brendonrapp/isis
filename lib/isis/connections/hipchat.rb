@@ -58,6 +58,37 @@ class Isis::Connections::HipChat < Isis::Connections::Base
     end
   end
 
+  def timer_response
+    nil
+  end
+
+  def join
+    @muc.each do |room,muc|
+      puts "Joining: #{room}/#{@config['hipchat']['name']} maxstanzas:#{@config['hipchat']['history']}"
+      begin
+        muc.join "#{room}/#{@config['hipchat']['name']}", @config['hipchat']['password'], :history => @config['hipchat']['history']
+      rescue => e
+        puts "## EXCEPTION in Hipchat join: #{e.message}"
+        bot.recover_from_exception
+      end
+    end
+  end
+
+  def yell(message)
+    @muc.each do |room,muc|
+      muc.send Jabber::Message.new(muc.room, message)
+    end
+  end
+
+  def speak(muc, message)
+    muc.send Jabber::Message.new(muc.room, message)
+  end
+
+  def still_connected?
+    @client.is_connected?
+  end
+
+  private
   def register_plugins_internal(muc, bot)
     muc.on_message do |time, speaker, message|
       # |time| is useless - comes back blank
@@ -106,33 +137,6 @@ class Isis::Connections::HipChat < Isis::Connections::Base
     bot.plugins.each do |plugin|
       bot.hello_messages.push plugin.hello_message if plugin.hello_message
     end
-
-  end
-  private :register_plugins_internal
-
-  def join
-    @muc.each do |room,muc|
-      puts "Joining: #{room}/#{@config['hipchat']['name']} maxstanzas:#{@config['hipchat']['history']}"
-      begin
-        muc.join "#{room}/#{@config['hipchat']['name']}", @config['hipchat']['password'], :history => @config['hipchat']['history']
-      rescue => e
-        puts "## EXCEPTION in Hipchat join: #{e.message}"
-        bot.recover_from_exception
-      end
-    end
   end
 
-  def yell(message)
-    @muc.each do |room,muc|
-      muc.send Jabber::Message.new(muc.room, message)
-    end
-  end
-
-  def speak(muc, message)
-    muc.send Jabber::Message.new(muc.room, message)
-  end
-
-  def still_connected?
-    @client.is_connected?
-  end
 end

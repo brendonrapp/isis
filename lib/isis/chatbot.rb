@@ -33,7 +33,7 @@ module Isis
       @hello_messages = []
       @connection = case @config['service']
       when 'hipchat'
-        Isis::Connections::HipChat.new(config)
+        Isis::Connections::HipChatJRuby.new(config)
       when 'campfire'
         Isis::Connections::Campfire.new(config)
       else
@@ -91,6 +91,10 @@ module Isis
       @connection.register_plugins(self)
     end
 
+    def timer_response
+      @connection.timer_response
+    end
+
     def still_connected?
       @connection.still_connected?
     end
@@ -121,6 +125,7 @@ module Isis
           register_plugins
           join
         end
+        timer_response
       end  
     end
   end
