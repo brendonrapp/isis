@@ -10,6 +10,7 @@ hipchat:
   name: Full Name
   password: <password>
   history: 3 # num of history fields to request
+  token:     # API token for posting HTML messages to room
   rooms:
     - DDDD_room_name@conf.hipchat.com
     # - DDDD_second_room_name@conf.hipchat.com

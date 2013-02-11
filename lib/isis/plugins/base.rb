@@ -10,6 +10,10 @@ module Isis
       def hello_message
         false
       end
+
+      def response_type
+        "text"
+      end
     end
   end
 end

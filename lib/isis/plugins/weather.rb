@@ -23,9 +23,6 @@ class Isis::Plugin::Weather < Isis::Plugin::Base
     # Weather at 8:11 am!
     if now.hour == 8 and now.min == 11 and (1..5).include? now.wday and not announced_today?(now.day)
       resp = do_the_weather
-    else
-      puts "now: #{now}"
-    end
     resp
   end
 

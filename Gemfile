@@ -11,6 +11,7 @@ gem 'nokogiri'
 gem 'tzinfo'
 gem 'em-timers', :git => "https://github.com/g1nn13/em-timers.git"
 gem 'barometer'
+gem 'ruby-hackernews'
 gem 'amatch', :platforms => :ruby
 
 group :development do

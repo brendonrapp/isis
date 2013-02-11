@@ -16,6 +16,7 @@ class Isis::Connections::HipChatJRuby < Isis::Connections::Base
   def initialize(config)
     load_config(config)
     create_jabber
+    create_api
   end
 
   def create_jabber
@@ -23,6 +24,10 @@ class Isis::Connections::HipChatJRuby < Isis::Connections::Base
     username, server = @config['hipchat']['jid'].split("@")
     password = @config['hipchat']['password']
     @client = Smackr.new(:server => server, :username => username, :password => password, :resource => 'bot')
+  end
+
+  def create_api
+    @api = HipChat::API.new(@config['hipchat']['token'])
   end
 
   def connect
@@ -40,7 +45,6 @@ class Isis::Connections::HipChatJRuby < Isis::Connections::Base
       room.left_callback = self.method(:left_callback)
       @rooms << room
     end
-    puts "Room last: #{@rooms.last}"
   end
 
   def reconnect
@@ -73,7 +77,7 @@ class Isis::Connections::HipChatJRuby < Isis::Connections::Base
     speaker = parse_name(packet.from)
     message = packet.body
 
-    puts "MESSAGE: s:#{speaker} m:#{message}"
+    puts "MESSAGE: r:#{room} s:#{speaker} m:#{message}"
     # ignore our own messages
     if speaker == @config['hipchat']['name']
       nil
@@ -83,10 +87,11 @@ class Isis::Connections::HipChatJRuby < Isis::Connections::Base
         begin
           response = plugin.receive_message(message, speaker)
           unless response.nil?
+            response_type = plugin.response_type
             if response.respond_to?('each')
-              response.each {|line| speak(room, line)}
+              response.each {|line| speak(room, line, response_type)}
             else
-              speak(room, response)
+              speak(room, response, response_type)
             end
           end
         rescue => e
@@ -125,14 +130,22 @@ class Isis::Connections::HipChatJRuby < Isis::Connections::Base
     join_rooms
   end
 
-  def yell(message)
-    @rooms.each do |room|
-      room.send_message message
+  def yell(message, type = "text")
+    if type == "html"
+      nil
+    else
+      @rooms.each do |room|
+        room.send_message message
+      end
     end
   end
 
-  def speak(room, message)
-    room.send_message message
+  def speak(room, message, type = "text")
+    if type == "html"
+      @api.room_message(room.get_room, @config['hipchat']['name'], message, 0, "grey", "html")
+    else
+      room.send_message message
+    end
   end
 
   def still_connected?
