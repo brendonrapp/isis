@@ -1,4 +1,4 @@
-# require 'isis/plugins/base'
+require 'isis/plugins/base'
 require 'barometer'
 require 'tzinfo'
 
@@ -21,8 +21,10 @@ class Isis::Plugin::Weather < Isis::Plugin::Base
     now = @tz.utc_to_local(Time.new.utc)
     resp = nil
     # Weather at 8:11 am!
-    if now.hour == 8 and now.minute == 11 and (1..5).include? now.day and not announced_today?(now.day)
+    if now.hour == 8 and now.min == 11 and (1..5).include? now.wday and not announced_today?(now.day)
       resp = do_the_weather
+    else
+      puts "now: #{now}"
     end
     resp
   end
@@ -36,6 +38,7 @@ class Isis::Plugin::Weather < Isis::Plugin::Base
     pismo = Barometer.new("93448").measure
     resp = ["ISIS Weather Report - #{now.strftime("%l:%M %P").strip} #{@tz.strftime("%Z")}"]
     [aptos, long_beach, austin, pismo].each { |w| resp << "#{forecast(w)}" }
+    @last_announced = now.day
     resp
   end
 

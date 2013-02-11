@@ -1,4 +1,4 @@
-# require 'isis/plugins/base'
+require 'isis/plugins/base'
 require 'gdbm'
 require 'time'
 require 'tzinfo'
@@ -8,6 +8,7 @@ class Isis::Plugin::GoodMorning < Isis::Plugin::Base
   BEGIN_MORNING = 7
   END_MORNING = 12
   END_DAY = 18
+  DUMMY_DATE = Time.new(2010,1,1)
 
   def initialize
     @db = GDBM.new('goodmorning.db')
@@ -23,11 +24,11 @@ class Isis::Plugin::GoodMorning < Isis::Plugin::Base
   end
 
   def joined(name)
-    last_seen = Time._load(@db[name]) unless @db[name].nil?
+    last_seen = @db[name].nil? ? DUMMY_DATE : Time._load(@db[name])
     now = @tz.utc_to_local(Time.new.utc)
     response = nil
 
-    unless last_seen.nil? or last_seen.strftime("%F") == now.strftime("%F")
+    unless last_seen.strftime("%F") == now.strftime("%F")
       if now.hour > BEGIN_MORNING and now.hour < END_MORNING
         response = "Good morning, #{name}!"
         response += " I hope you had a good weekend." if now.monday?
@@ -38,5 +39,14 @@ class Isis::Plugin::GoodMorning < Isis::Plugin::Base
     @db[name] = now._dump if now.hour > BEGIN_MORNING and now.hour < END_DAY
 
     response
+  end
+
+  def reset
+    clear_log
+  end
+
+  private
+  def clear_log
+    @db.clear
   end
 end
